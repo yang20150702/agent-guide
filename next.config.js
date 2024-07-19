@@ -8,7 +8,7 @@ try {
     images: {
       unoptimized: true, // mandatory, otherwise won't export
     },
-    basePath: "",
+    basePath: "/agent-guide",
     //Optional: Change the output directory `out` -> `dist`
   //  distDir: "build"
 
@@ -16,6 +16,7 @@ try {
 
   const withNextra = require('nextra')({
     theme: 'nextra-theme-docs',
+    themeConfig: './src/theme.config.js',
     latex: true,
     flexsearch: {
       codeblock: false
