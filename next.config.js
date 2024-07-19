@@ -16,11 +16,6 @@ try {
 
   const withNextra = require('nextra')({
     theme: 'nextra-theme-docs',
-    themeConfig: './src/theme.config.js',
-    latex: true,
-    flexsearch: {
-      codeblock: false
-    }
   })
 
   module.exports = withNextra(nextConfig) //export the config as a dependency
