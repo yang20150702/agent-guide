@@ -1,0 +1,112 @@
+<mxfile host="Electron" modified="2024-09-11T09:11:14.886Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="O5EeySYrbmFFh3jvvMBd" version="21.6.5" type="device">
+  <diagram name="第 1 页" id="nlFYppiAXE-AYDN0QVmY">
+    <mxGraphModel dx="1114" dy="739" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="phpgvFNPmzijs37VagIZ-43" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="750" y="390" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-34" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="750" y="260" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-26" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="270" y="270" width="460" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-25" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="270" y="120" width="460" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-1" value="基于k8s的云平台：资源池化、GPU虚拟化" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="480" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-5" value="基础设施层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="480" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-7" value="调度层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="160" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-9" value="基于kubeflow的分布式训练" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-10" value="基于seldon-core+vllm模型推理和服务化" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-11" value="能力层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="160" y="300" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-12" value="LLM训练" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="280" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-13" value="LLM服务化" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="280" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-14" value="RAG能力" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="280" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-15" value="Agent能力" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="280" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-16" value="应用层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="160" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-17" value="模型预训练、微调" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-18" value="模型推理" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-19" value="模型管理" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-20" value="基于Agent的应用搭建" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="200" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-21" value="知识库" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="140" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-22" value="数据集管理" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="140" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-23" value="技能管理" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="140" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-27" value="模型评测" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="140" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-28" value="向量数据库" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-30" value="Embedding模型" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="270" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-31" value="Rerank模型" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-32" value="LLM模型" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="270" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-33" value="M/VLM模型" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-37" value="模型资产" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="980" y="305" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-38" value="LLM&lt;br&gt;可观测能力" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="190" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-40" value="关系型数据库" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="450" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-41" value="文件存储S3" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="400" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-42" value="消息队列" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="450" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="phpgvFNPmzijs37VagIZ-44" value="存储" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="990" y="420" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,65 @@
+# MLOps(Machine Learning Operations)
+
+> [Machine Learning Operations](https://ml-ops.org/) 提供了 MLOps 的全局视角。
+
+MLOps系统主要关注于Machine Learning Model的自动化管理操作。
+
+我们的MLOps系统分层如下：
+底层：GPU、CPU等设备
+计算层：k8s调度层，支持GPU虚拟化等操作，kubeflow（支持模型训练），seldon提供模型服务化
+能力层：提供模型训练、模型服务化、模型开发等核心能力，负责调度底层能力，封装核心的业务功能模块
+业务层：提供了MLOps的核心功能
+
+机器学习平台竞品：[mlflow](https://mlflow.org/), kubeflow
+
+## 模型训练：kubeflow
+
+以下是我对分布式训练的一些学习总结
+
+[kubeflow分布式训练：training-operator的设计以及实现](https://yang20150702.github.io/2024/08/27/kubeflow-operator/)
+
+[分布式训练基础]()
+
+[pytorch分布式训练]()
+
+## 模型服务化：seldon-system
+
+MLE系统支持Seldon和serving_base(k8s自身的服务化)两种。主要能力包括创建、更新、删除Serving。
+创建Serving_base的流程：依次创建PV、PVC、Deployment、Service、Ingress。
+创建Seldon_serving的流程：依次创建PV、PVC、SeldonDeployment、Service、Ingress
+
+seldon支持多种server，包括sklearn、tensorflow、mlflow、triton、自定义Server。
+通过扩展MLServer实现了自定义Server，从而支持vllm服务化
+
+核心调度流程，如何实现的？
+
+## GPU 共享隔离机制：用于底层GPU资源池化管理
+
+
+```
+实际使用的GPU和cuda版本为
+NVIDIA GeForce RTX 2080 Ti
+Driver Version: 545.29.06    CUDA Version: 12.3
+torch: 1.13.0+cu117
+docker: cuda:12.2.2,python3.8
+
+docker的cuda版本不能高于docker内部
+```
+
+MLE系统 采用的是 TKE 的 GPU 共享隔离机制方案，该方案通过将一个物理 GPU 卡划分为多个虚拟的 GPU，支持显存和计算资源两个维度的按需分配给容器。
+在 K8S 层面既做调度，又做到隔离两个方面的共享。
+为了在容器中有效地共享 GPU 资源，实现对 K8S 透明，不对 K8S 及用户应用做入侵，同时确保性能和隔离，
+TKE GPU 共享方案借鉴 cgroup 的设计思想，像 cgroup 管理 CPU 和 内存一样来管理 GPU 和显存，同时通过 device-plugin，来做 GPU 资源的发现、为任务分配相应的硬件资源，以及配置容器运行时环境，提出了 vCUDA 的设计：
+
+vCUDA 的系统架构与 Nvidia Grid 架构类似，采用一个 manager 来管理 GPU，manager 负责配置容器的 GPU 计算能力和显存资源，做到使用者无法使用多于申请的显存，GPU 的平均使用率不会大幅超出申请值。
+vCUDA的设计采用零入侵设计，用户的程序无需重新编译就可以运行在GaiaStack平台进行GPU共享。vCUDA 使用修改后cuda library 来达到资源控制，vCUDA 分别修改了计算操作，显存操作和信息获取 3个方面的 API
+
+该方案其主要包括 4 个核心组件：主要的运行流程可如下所示:
++ GPU-Manager：是一个 device-plugin，它运行在主机层，主要负责创建 vGPU 和通过 gRPC 和 kubelet 进行通信，向 kubelet 汇报其管理的 GPU 资源
++ GPU-Scheduler：在主机层，主要负责为 vGPU 分配物理 GPU 资源，为 GPU-Manager 发出的调度请求服务。其采用基于 GPU 拓扑树的分配策略进行资源的分配，其目标是最小化 GPU 拓扑树碎片，以及最小化 GPU 间通信代价。GPU 拓扑树的根节点是一个物理主机，叶子节点是一块物理 GPU。
+vGPU-Manager：在主机层，主要提供容器配置以及监控分配了 vGPU 的容器。vGPU-Library：在容器层，主要负责管理具体容器的 GPU 资源。
+
+
+## 参考
+
+1. [GPUManager虚拟化方案](https://cloud.tencent.com/developer/article/1685122)

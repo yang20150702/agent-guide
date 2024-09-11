@@ -1,7 +1,11 @@
 {
-  "index": "Introduction",
-  "get-started": "Get Started",
-  "features": "Features",
-  "themes": "Themes",
-  "advanced": "Advanced"
+  "index": "Agent工程指南",
+  "agent": "Agent简介",
+  "llm": "大模型基础",
+  "llmops": "大模型Ops",
+  "techniques": "Agent相关技术",
+  "papers": "论文",
+  "applications": "Agent开源项目",
+  "research": "做过的一些调研",
+  "infrastructure": "大模型技术"
 }

@@ -5,15 +5,27 @@ import { useConfig } from 'nextra-theme-docs'
  * @type {import('nextra-theme-docs').DocsThemeConfig}
  */
 export default {
-  banner: {
-    key: 'Nextra 2',
-    text: 'Nextra 2 Alpha'
+  // chat: {
+  //   link: 'https://discord.gg/hEM84NMkRv' // Next.js discord server,
+  // },
+  logo: ({ locale }) => (
+      <>
+        <span className="mr-2 hidden font-extrabold md:inline">Agent</span>
+        <span className="hidden font-normal text-gray-600 md:inline">
+        工程指南
+      </span>
+      </>
+  ),
+  sidebar: {
+    defaultMenuCollapseLevel: 1
   },
-  chat: {
-    link: 'https://discord.gg/hEM84NMkRv' // Next.js discord server,
+  // eslint-disable-next-line sort-keys
+  footer: {
+    text: `MIT ${new Date().getFullYear()} © Yang Yang.`
   },
+  // eslint-disable-next-line sort-keys
   docsRepositoryBase:
-    'https://github.com/shuding/nextra/blob/core/examples/docs',
+    'https://github.com/yang20150702/agent-guide/tree/main',
   editLink: {
     text: 'Edit this page on GitHub'
   },
@@ -53,7 +65,7 @@ export default {
         }
       ],
       additionalMetaTags: [
-        { content: 'en', httpEquiv: 'Content-Language' },
+        { content: 'zh', httpEquiv: 'Content-Language' },
         { content: 'Nextra', name: 'apple-mobile-web-app-title' },
         { content: '#fff', name: 'msapplication-TileColor' },
         { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
@@ -66,10 +78,10 @@ export default {
         ]
       },
       titleTemplate: '%s – Nextra',
-      twitter: {
-        cardType: 'summary_large_image',
-        site: 'https://nextra.vercel.app'
-      }
+      // twitter: {
+      //   cardType: 'summary_large_image',
+      //   site: 'https://nextra.vercel.app'
+      // }
     }
   }
 }

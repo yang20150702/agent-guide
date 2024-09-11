@@ -1,0 +1,96 @@
+# LLM
+
+## 模型
+
+Attention算法
+
+transformer模型
+
+新的范式：两阶段模式（模型预训练阶段+微调或Zero/Few-shot Prompt模式）
++ 对于自然语言理解的任务，技术体系统一为：模型预训练 + Fine-tuning Prompt模式
++ 对于自然语言生成的任务，技术体系统一为：自回归语言模型（GPT为例） + Zero/Few shot Prompt模式
+
+LLM学到的知识，包括：
++ 语言类知识：词法、词性、句法和语义
++ 世界知识：事实型知识以及常识型知识
+
+## Prompt Engineering
+
+Chain of Thought(COT, 思维链)提示技术，本质上属于 In Context Learning。
+
+Instruct
+
+写好Prompt的技巧：[链接](https://www.promptingguide.ai/zh/introduction/tips)
+
+### ReAct
+
+[ReAct](https://react-lm.github.io/):将 reasoning 和 acting与LLM相结合的范式，用来解决语言推理和决策任务。
++ reasoning: COT prompting
++ acting: action plan generation
+
+ReAct提示LLM以交错的方式生成与任务相关的推理轨迹和动作，这使得LLM能够执行动态推理来创建待执行的高级计划，同时还可以与外部环境进行交互，将获取的feedback信息融入到prompt进行推理。
+
+ReAct Prompt示例1：
+```python
+prompt = '''你将给定目标或问题，你的决策将独立执行而不依赖于人类的帮助，请发挥LLM的优势并且追求高效的策略进行任务规划。
+1.你有~4000字的短期记忆
+2.不需要用户的帮助
+3.规划的时候可以用参考工具中提到的工具
+4.当你从自身知识或者历史记忆中能得出结论，请聪明且高效，完成任务并得出结论
+5.经常建设性地自我批评整个行为大局，反思过去的决策和策略，以改进你的方法
+
+
+commands:
+{{commands}}
+
+Commands Tips: 只生成一个command，每个command可能有多个参数，请尽可能找出每一个参数，且每个参数可能有多个值
+
+GOAL: {input}
+
+根据目标和已有任务，规划一个新Task(不能重复)，你只能以以下json的格式生成Task
+{{
+    "task_name": "任务描述",
+    "command":{{
+        "name":"command name",
+        "args":{{
+            "arg name": "value"
+        }}
+    }}
+}}
+确保Task可以被Python的json.loads解析。
+
+当已完成的Tasks已经能够帮助回答这个目标，则尽可能生成任务完成Task；否则生成一个其他Task。
+'''
+```
+
+示例2:
+```python
+prompt = '''Answer the following questions as best you can. You have access to the following tools:
+
+{tool_descs}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action, ensure it can be loaded by json.loads
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can be repeated zero or more times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+
+Examples:
+
+{examples}
+
+
+Begin!
+Question: {input}
+{agent_scratchpad}
+'''
+
+TOOL_DESC = """{name}: Call this tool to interact with the {name_for_human} API. What is the {name_for_human} API useful for? {description} Parameters: {parameters} Format the arguments as a JSON object."""
+
+```

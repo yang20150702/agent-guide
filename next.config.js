@@ -11,7 +11,6 @@ try {
     basePath: "/agent-guide",
     //Optional: Change the output directory `out` -> `dist`
   //  distDir: "build"
-
   }
 
   const withNextra = require('nextra')({
