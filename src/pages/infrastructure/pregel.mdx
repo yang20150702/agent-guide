@@ -1,0 +1,23 @@
+## Google Pregel图处理系统
+
+A Pregel computation consists of a sequence of iterations, each called a superstep.
+
+“During a superstep the framework invokes a user-defined function for each vertex, conceptually in parallel. The function specifies behavior at a single vertex V and a single superstep S.
+It can read messages sent to V in superstep S − 1, send messages to other vertices that will be received at superstep S + 1, and modify the state of V and its outgoing edges.
+Messages are typically sent along outgoing edges, but a message may be sent to any vertex whose identifier is known.”
+
+Vertices may choose to halt at a given step, switching its state from activated to deactivated. The Pregel framework will not invoke the function at this vertex from the next superstep onward, unless the vertex is reactivated by a message.
+
+The function can be invoked at each vertex in parallel, since individual vertices communicate via message-passing rather than shared memory.
+
+“Within each superstep the vertices compute in parallel, each executing the same user-defined function that expresses the logic of a given algorithm.
+A vertex can modify its state or that of its outgoing edges, receive messages sent to it in the previous superstep, send messages to other vertices (to be received in the next superstep), or even mutate the topology of the graph.
+Edges are not first-class citizens in this model, having no associated computation.”
+“在每个超级步骤中，顶点并行计算，每个顶点执行相同的用户定义函数来表达给定算法的逻辑。 顶点可以修改其状态或其出边的状态，接收在上一个超级步骤中发送给它的消息，将消息发送到其他顶点（将在下一个超级步骤中接收），甚至改变图的拓扑。 在这个模型中，Edges（边）不是一等公民，没有相关的计算。”
+
+## 参考
+
+1. [A quick introduction to Google’s Pregel graph processing system](https://medium.com/@AdityaChatterjee/googles-pregel-graph-processing-system-90341156848a)
+2. [Pregel: A System for Large-Scale Graph Processing](https://blog.acolyer.org/2015/05/26/pregel-a-system-for-large-scale-graph-processing/)
+3. [Pregel（图计算）技术原理](https://cshihong.github.io/2018/05/30/Pregel%EF%BC%88%E5%9B%BE%E8%AE%A1%E7%AE%97%EF%BC%89%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/)
+

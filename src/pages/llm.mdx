@@ -94,3 +94,144 @@ Question: {input}
 TOOL_DESC = """{name}: Call this tool to interact with the {name_for_human} API. What is the {name_for_human} API useful for? {description} Parameters: {parameters} Format the arguments as a JSON object."""
 
 ```
+
+## 大模型相关的知识
+
+> 重点在Transformer架构，在MOE、长上下文等多个角度进行扩展
+
+重点关注大模型的进展，主流大模型的设计
+
+信号智能：第一代
+感知智能：第二代
+认知智能：第三代
+
+抽象推理 -> 智能Agent（以西部世界为例）
+
+AgentBench：大模型的代理能力
+
+对于人，有两种思维方式：直接性思维；推理性思维
+
+认知推理逻辑，有两个路径同时进行：
++ 认知
++ self-instruct
+
+超级认知智能
+
+## transformer
+
+> A Survey of Techniques for Optimizing Transformer Inference.pdf
+
+Transformer 网络系列，包括Bidirectional Encoder Representations from Transformer (BERT), Generative Pretrained Transformer (GPT) and Vision Transformer (ViT)的双向编码器表示，已在自然语言处理 (NLP) 和计算机视觉 (CV) 领域展示了其有效性。
+
+We survey techniques such as knowledge distillation, pruning, quantization, neural architecture search and lightweight network design at the algorithmic level. We further review hardware-level optimization techniques and the design of novel hardware accelerators for transformers. We summarize the quantitative results on the number of parameters/FLOPs and accuracy of several models/techniques to showcase the tradeoff exercised by them.
+我们在算法层面研究了知识蒸馏、剪枝、量化、神经架构搜索和轻量级网络设计等技术。 我们进一步回顾了硬件级优化技术和新型变压器硬件加速器的设计。 我们总结了几种模型/技术的参数/FLOP 数量和准确性的定量结果，以展示它们所进行的权衡。
+
+### vLLM和Paged attention
+
+基本上构建一个类似于CPU内存管理的内存管理系统，以减少碎片并充分利用内存吞吐量
+
+### FlashAttention
+
+FlashAttention 是每个练习者都必须具备的。 请简单记住完整算法
+核心点：
++ 不是将完整的注意力矩阵存储在 HBM 中，而是对点积进行分块计算，以便所有计算都在 L2 缓存中执行
+主要优势：
+• 显着减少内存使用量，这样您就可以使用蛮力输入 100k 上下文长度 — 是的，对于 100k 没有奇特的算法，只有蛮力
+◦ 在原始论文中，作者仅测试了 16k，但 100k 是完全可行的
+• 显着提高吞吐量，特别是对于大部分flop进行点积运算的小型模型j
+
+### FlashDecoding
+
+> https://pytorch.org/blog/flash-decoding/
+
+核心点：不要使用一个query扫描整个 kv 缓存，而是复制该query，以便可以并行扫描 kv 缓存的不同块
+
+### Modeling: architecture and decoding algorithm
+
+Distillation and sparse attention
+
+Quantization:
+• Most foundamental method, quantize the model weight to int 8.
+• Quantization is nowadays a must to deploy a large model. The good news is that it does not really harm performance
+
+In genereal, multi-query attention significantly speed up training and inference by simultanously reducing memory and compute
+
+Multi-query attentioon and group-query attention:
+Multi-query attention is also a great example where differences in small models do not exist in large models: for small models like 7B, multi-query attettion is worse than full attention, but when models become as large as 70B, multi-query attention has basically the same performance as full attention.
+LLaMA2 7B uses full attention, and 70B uses GQA.
+
+目前最先进的大型模型默认使用 multi-query attention
+
+## LLaMA
+
+LLaMA在LLM的结构中引入了BPE字符编码、RoPE位置编码、SwiGLU激活函数、RMSNorm正则化以及Untied Embedding等优化技术。官方只提供推理版本的代码，如何以低成本的方式开展高效训练，并没有标准的范式。
+
+## 大模型训练
+
+如果我想使用AquilaChat在自己的大量的领域数据上（10GB）做预训练， 然后在自己的小规模带标注的领域数据集（约200M）上再做微调，并且想保持Aquila基础的聊天能力（与我自己的领域数据无关的基础聊天能力和Aquila-Chat基本相当），我应该怎么做？
+最好的方式是直接基于Aquila基础模型继续预训练。不过你也可以尝试直接基于 AquilaChat 进行大量领域数据的预训练，也可以提升模型在特定领域的能力。
+需要注意预训练完之后的 SFT 数据的多样性（这里指的是 task的类型需要足够多），比如去网上搜集其他通用的开源的 SFT 数据集，例如 COIG 和 OIG 等，混合着你需要的200M小数据集，一起做 SFT 效果会更好。
+
+## 最大化LLM性能的技巧: openai
+
+优化LLM性能并不是线性的
+
+最近，在 OpenAI 开发者日，一场激动人心的会议致力于最大限度地提高 LLM 性能的先进技术。以下是本次演讲“最大化 LLM 绩效的技术调查”的要点摘要：
+
++ 快速工程：从快速工程技术开始，例如清晰的说明、分解任务以及快速迭代和建立基线的系统测试。
++ 检索增强生成（RAG）：当模型需要更多上下文时，使用 RAG 引入相关信息。非常适合短期记忆问题。
++ 微调：考虑微调以可靠地遵守指令或生成特定结构，这对于长期记忆问题尤其有效。
++ 非线性方法：根据需要毫不犹豫地交替使用不同的技术。在扩大规模之前，从技术和数据数量/质量方面从小处开始。
++ 建立基线：在微调之前，建立基线以了解差距。从多个角度进行评估提供了很好的视角。
++ RAG 和微调的组合：这种组合可以提供两全其美的效果，最大限度地减少提示标记并最大化上下文空间。
++ 迭代过程：测试、评估，然后测试其他内容。对于微调来说，示例的质量比数量更重要。
+
+总而言之，即时工程、RAG 和微调各有优势。迭代的、基于证据的方法，根据需要结合使用这些技术，通常被证明是优化法学硕士跨应用程序性能的最佳方法。
+
+🚀 Introducing SOFAI: a revolutionary AI architecture inspired by Daniel Kahneman's theory of fast and slow thinking. Source : https://lnkd.in/e2VY8nfg
+
+以下是要点：
+🧠 系统 1（快速）：基于过去的经验，直观且响应迅速。
+🤔 系统 2（慢）：逻辑性强、深思熟虑，非常适合解决复杂问题。
+🔄 元认知模块：根据上下文选择适当的求解器。
+📚 知识模型：存储经验和信息。
+
+🔍 实际应用：
+📈 在受限网格环境中导航：
+► 快速求解器：选择运动以最大化奖励。
+►慢速求解器（MDFT）：模拟人类决策。
+
+📊 令人印象深刻的结果：
+🏆 轨迹更接近人类行为且质量更好。
+⏩ 通过持续学习提高绩效。
+🔄 随着经验的积累，从慢速求解器过渡到快速求解器，模仿人类学习。
+
+
+LLMs的涌现能力有： In-Context Learning (ICL), Instruction Following & Step-By-Step Reasoning (CoT).
+
+Key Practices related to LLMs are: Scaling, Training, Ability Eliciting, Alignment Tuning, Tools.
+
+Adaption Of LLMs include: Instruction Tuning, Alignment Tuning, Memory-Efficient Model Adaptation, etc.
+
+Three main approaches to Prompt Engineering are: In-Context Learning, Chain-Of-Thought, Planning.
++ ICL Prompt Engineering Implementations: KATE, EPR, SG-ICL, APE, Structured Prompting, GlobalE & LocalE.
++ CoT Prompt Engineering Implementations: Complex CoT, Auto-CoT, Selection-Inference, Self-consistency, DIVERSE, Rationale-augmented ensembles.
++ Planning Prompt Engineering Implementations: Least-to-most prompting, DECOMP, PS, Faithful CoT, PAL, HuggingGPT, AdaPlanner, TIP, RAP, ChatCoT, ReAct, Reflexion, Tree of Thoughts.
+
+Emergent Abilities of LLMs
+The study identifies three typical emergent abilities for LLMs which is very insightful
+
+In-Context Learning (ICL)
+The concept of In-Context Learning (ICL) was formally introduced by GPT-3. The assumption of ICL is that if the LLM has been provided with a prompt holding one or more task demonstrations, the model is more likely to generate a correct answer.
+
+Among the GPT-series models, the 175B GPT-3 model exhibited a strong ICL ability in general.
+
+Instruction Following
+
+By fine-tuning with a mixture of multi-task datasets formatted via natural language descriptions (called instruction tuning), LLMs are shown to perform well on unseen tasks that are also described in the form of instructions.
+
+With instruction tuning, LLMs are enabled to follow the task instructions for new tasks without using explicit examples, thus having an improved generalisation ability.
+
+Step-by-step Reasoning
+
+With the Chain-Of-Thought (CoT) prompting strategy , LLMs can solve complex tasks by utilising the prompting techniques that involves intermediate reasoning steps for deriving the final answer.
