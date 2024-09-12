@@ -119,12 +119,7 @@ def agent_node(state, agent, name):
     }
 
 
-llm = AzureChatOpenAI(
-            azure_endpoint="https://ainnovation-yangyang.openai.azure.com/",
-            api_version="2023-12-01-preview",
-            model="gpt-4-0613"
-            # model="gpt-35-turbo-0613"
-        )
+llm = AzureChatOpenAI()
 
 # Research agent and node
 research_agent = create_agent(

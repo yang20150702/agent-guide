@@ -28,7 +28,9 @@ ModelExecutor：
 Scheduler:
 SequenceGroupOutputProcessor: 用于beamsearch或者speculative decoding
 
-## Executor: 负责在特定device(CPU, GPU, NEuron...)上运行Model；也可以是一个分布式Executor
+## Executor
+
+负责在特定device(CPU, GPU, NEuron...)上运行Model；也可以是一个分布式Executor
 
 ExecutorBase
 ExecutorAsyncBase
@@ -110,7 +112,7 @@ Prefill vs decoding
 
 以 Llama2-7B（4096 序列长度，float16精度）为例，计算一下 batch_size = 1的理想推理速度。
 + Prefilling：假设 prompt 的长度是 350 token，那么预填充所需要的时间 = number of tokens * ( number of parameters / accelerator compute bandwidth) = 350 * (2 * 7B) FLOP / 125 TFLOP/s = 39 ms（A10)。这个阶段主要是计算瓶颈。
-+ decoding：time/token = total number of bytes moved (the model weights) / accelerato     r memory bandwidth = (2 * 7B) bytes / (600 GB/s) = 23 ms/token（A10)。这个阶段的瓶颈是带宽。
++ decoding：time/token = total number of bytes moved (the model weights) / accelerator memory bandwidth = (2 * 7B) bytes / (600 GB/s) = 23 ms/token（A10)。这个阶段的瓶颈是带宽。
 
 2、prefill多数据并行，属于计算瓶颈。decode阶段一次迭代一个token，内存耗时更多。因此加速方式如下降低输入长度可以优化prefill阶段耗时算子合并、优化的方式对prefill阶段加速更明显降低kv cache显存对降低decoding阶段耗时更有效MOE降低了激活参数也可以减少计算量，降低耗时一次预测多个token减少decode迭代步骤；用小draft模型快速推理初始结果，将prompt和初始结果一起输入大模型做判别，充分利用了LLM在prefill阶段计算效率更高的特点，在某种程度上也可以加速。
 3、vllm和tensorRT-llm等框架，在处理时都会将不同batch的数据合并成一个batch（超长的total_seq），去除batch间不同长度的seq需要pad到同一长度造成的内存和计算量浪费。

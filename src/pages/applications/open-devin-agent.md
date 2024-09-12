@@ -1,14 +1,18 @@
 ## 简介
 
+> 开源 Devin，一个能够执行复杂工程任务并与用户积极合作进行软件开发项目的 AI 软件工程师
+
 OpenDevin是一套Agent框架，
 
-> 核心架构没有变化，重点在于内部的设计有所不同
+> Agent核心架构没有变化，重点在于内部的设计有所不同
 
-分层架构图，核心流程流转
-
-server -> AgentSession -> AgentController ->
+server -> AgentSession -> AgentController -> Agent
 
 AgentController 等价于 AgentExecutor
+
+## 架构图
+
+![架构图](../../../public/opendevin.svg)
 
 ## 系统架构
 
@@ -50,13 +54,25 @@ agentHub: 内置了很多Agent，服务启动会自动注册到全局Agent
 + Monologue Agent: 利用长短期记忆来完成任务
 + Planner Agent: 利用特殊的prompt策略来创建长期plan来解决问题
 
-例子演示
+1. BrowsingAgent：与 Browser 交互的Agent
+2. CodeActAgent
+3. CodeActSWEAgent：用来解决 Github issues
+4. DelegatorAgent
+5. micro-agents：包括多个Agent。彼此之间存在委派关系，可以由ManagerAgent来委派
+6. MonologueAgent：利用长短期记忆来完成任务
+7. PlannerAgent：利用特殊的prompt工程创建plan来解决问题
+8. SWEAgent：将 LM（例如 GPT-4）转变为软件工程代理，可以修复真实 GitHub 代码库中的bug和issue。
 
 ## 核心流程
 
-流程图
+![架构图](../../../public/openDevin流程图.drawio.svg)
 
 ## 架构设计的优点以及缺点
+
+1. 架构简洁，高内聚，低耦合
+2. 高效地利用jinja来render prompt；相比langchain的prompt设计，该方案简单；
+3. 扩展性：基于EventStream的设计，可以将Agent扩展到分布式系统中（未实现）
+
 
 ## 启发点
 
