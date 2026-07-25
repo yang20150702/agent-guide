@@ -3,6 +3,7 @@
   "agent": "Agent简介",
   "llm": "大模型基础",
   "llmops": "大模型Ops",
+  "mlops": "MLOps",
   "techniques": "Agent相关技术",
   "papers": "论文",
   "applications": "Agent开源项目",

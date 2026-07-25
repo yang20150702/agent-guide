@@ -1,0 +1,11 @@
+{
+  "agents": "Agents 框架",
+  "autogen": "AutoGen",
+  "crewAI": "CrewAI",
+  "kwaiAgent": "快手 Agent",
+  "langchain": "LangChain",
+  "langgraph": "LangGraph",
+  "metagpt": "MetaGPT",
+  "open-devin-agent": "OpenDevin",
+  "xagent": "XAgent"
+}

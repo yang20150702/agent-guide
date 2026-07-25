@@ -1,4 +1,6 @@
 {
   "multi-agent": "多Agent智能体",
-  "rag": "RAG"
+  "rag": "RAG",
+  "react": "ReAct",
+  "reflection": "Reflection 反思"
 }
